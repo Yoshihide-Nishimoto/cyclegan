@@ -1,8 +1,9 @@
-import cv2 
+import cv2
 import glob
 
 import os
 facePath = cv2.CascadeClassifier("./cascade.xml")
+
 
 def faceExtractor(file):
     img = cv2.imread(file)
@@ -11,13 +12,13 @@ def faceExtractor(file):
 
     gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
     face = facePath.detectMultiScale(gray, 1.3, 5)
-    if len(face)==0:
+    if len(face) == 0:
         print('faceExtractor :', 'not detect')
         return None
 
     for(x, y, w, h) in face:
-        cropped = img[y: y+h, x: x+w]
-    
+        cropped = img[y: y + h, x: x + w]
+
     return cropped
 
 
@@ -26,6 +27,7 @@ for file in files:
     face = faceExtractor(file)
     if face is not None:
         filename = os.path.basename(file)
-        cv2.imwrite("./faceImages/"+filename, face)
+        rface = cv2.resize(face, (256, 256))
+        cv2.imwrite("./faceImages/" + filename, rface)
     else:
         print("nonoooooo")

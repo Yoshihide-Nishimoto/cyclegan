@@ -4,6 +4,7 @@ import json
 import os
 from bs4 import BeautifulSoup
 
+
 class Google:
     def __init__(self):
         self.GOOGLE_SEARCH_URL = 'https://www.google.co.jp/search'
@@ -38,10 +39,10 @@ class Google:
         page = 0
         while True:
             params = urllib.parse.urlencode({
-                    'q': keyword,
-                    'tbm': 'isch',
-                    'filter': '0',
-                    'ijn': str(page)})
+                'q': keyword,
+                'tbm': 'isch',
+                'filter': '0',
+                'ijn': str(page)})
 
             yield self.GOOGLE_SEARCH_URL + '?' + params
             page += 1
@@ -61,15 +62,12 @@ def downloadImages(urls):
         print(url)
         print(os.path.join(*["./googleImages", str(i + 1).zfill(4) + ".jpg"]))
         try:
-            urllib.request.urlretrieve(
-                url,
-                os.path.join(*["./googleImages", str(i + 1).zfill(4) + ".jpg"]),
-            )
+            urllib.request.urlretrieve(url, os.path.join(
+                *["./googleImages", str(i + 1).zfill(4) + ".jpg"]), )
             print("successful")
         except BaseException:
             print("failed")
             continue
-
 
 
 google = Google()
@@ -77,4 +75,3 @@ google = Google()
 results = google.search("顔", maximum=100)
 
 downloadImages(results)
-
